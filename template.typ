@@ -22,7 +22,7 @@
   header: self => {
     v(0.5em)
     h(0.5em)
-    set text(1.7em)
+    set text(1.5em)
     utils.display-current-heading(level: 2)
   },
 
