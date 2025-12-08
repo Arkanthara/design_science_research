@@ -1,30 +1,159 @@
 ---
-title: "Quarto Presentations"
-subtitle: "Create beautiful interactive slide decks with Reveal.js"
+title: "Pre-Dam Vltava River Valley"
+subtitle: "A Case Study of 3D Visualization of Large-Scale GIS Datasets in Unreal Engine"
 format:
   revealjs: 
     slide-number: true
     chalkboard: 
       buttons: false
     preview-links: auto
-    logo: images/quarto.png
-    css: styles.css
-    footer: '[https://{{< meta prerelease-subdomain >}}quarto.org](https://{{< meta prerelease-subdomain >}}quarto.org)'
+    logo: img/unige.svg
+    logo-size: 20
+    theme: theme.scss
+    footer: 'Michel Jean Joseph Donnet'
 resources:
   - demo.pdf
 ---
 
-## Hello, There
+## Goal
 
-This presentation will show you examples of what you can do with Quarto and [Reveal.js](https://revealjs.com), including:
+- 3D Visualization of large-scale GIS^[Geographic information system] dataset
+  - 1670 $km^2$ and more
+- Example of dataset: [swissBUILDINGS3D 3.0 Beta
+](https://map.geo.admin.ch/#/map?lang=fr&sr=3857&camera=6.139928,46.175321,441.8,-2,5,&3d&topic=ech&layers=ch.swisstopo.swissimage-product@year=current&bgLayer=ch.swisstopo.pixelkarte-farbe&catalogNodes=ech,532)
 
--   Presenting code and LaTeX equations
--   Including computations in slide output
--   Image, video, and iframe backgrounds
--   Fancy transitions and animations
--   Activating scroll view
+## Motivations {background-video="./img/video.mp4"}
 
-...and much more
+- Improvements in computational performance since the 1970s
+- Game engines essort
+  - Ray tracing
+  - Nanite
+  - Lumen
+
+**$\Longrightarrow$ Massive open word creation !**
+
+## Used hardware
+
+Table: Used hardware.
+
+| Computer / Parameters | PC1                 | PC2                 |
+|-----------------------|--------------------------------|----------------------------------|
+| **CPU**               | AMD Ryzen 9 7950X3D            | Intel Core i9-10940X             |
+| **GPU**               | NVIDIA GeForce RTX 4090        | NVIDIA GeForce RTX 3070          |
+| **RAM**               | 64 GB DDR5 6600 MHz CL32       | 64 GB DDR4 3200 MHz CL22         |
+
+## Unreal Engine
+
+1. Practical: used for Vltava project
+
+2. Technical: Suitable for real-time rendering of a vast open world with high visual graphics quality 
+
+3. Moral: Unity prioritizes monetization
+
+## Other softwares
+
+- GIS softwares (from [ESRI](https://www.esri.com))
+  - [ArcGIS Pro](https://www.esri.com/en-us/arcgis/products/arcgis-pro/overview)
+  - [CityEngine](https://www.esri.com/en-us/arcgis/products/arcgis-cityengine/overview)
+- [GIMP](https://www.gimp.org/)
+
+## Data source
+
+::: {layout-ncol="2"}
+![Used for land informations (building, roads, ...)](img/data_informations.jpg)
+
+![Used for heightmap informations](img/data_heightmap.jpg)
+
+:::
+
+::: {.notes}
+- 1821-1840's
+- 1950's
+
+Ces sources: combines et enregistres sous un DTM Digital Terrain ModelGeoTIFF
+
+Note: adaptation requise pour avoir informations qui matchent la taille de heightmap
+
+(Si trop grand, erreur dans UE5)
+:::
+
+## Challenging of importing data inside UE5
+
+- UE5 doesn't support GIS imports
+- Use third-party plugins (paid)
+  - Landscaping
+  - TerraForm PRO
+
+. . .
+
+**BUT CityEngine can export to Datasmith which is supported by UE5 !**
+
+::: {.notes}
+Achetables sur marketplace de UE5
+
+#### Landscaping
+
+- import: quelques heures
+- pas stable sur large datasets
+
+#### TerraForm PRO
+
+- import: 15 minutes
+- pas limite sur systeme de coordonnees (Coordinate Reference System)
+- MAIS coordonnees importees matchent systeme de coordonnee de UE5 (X = Y = Z = 0) => pas de possibilite d'import d'autres donnees... 
+
+=> Option rejetee
+
+CityEngine: 
+
+- export bon format UE5
+- Prend 2 minutes d'import
+- Pas de transformation de coordonnees !!!
+  - peut utiliser systeme utilise la-bas !!
+
+Mais probleme resolution resolut avec irregular decimal pixel (0.987x1.123) au lieu de 1x1...
+:::
+
+## Preparation/Editing of GIS Data
+
+::: {layout-ncol="2"}
+![Original](img/data_original.jpg)
+
+![After editing](img/data_edited.jpg)
+:::
+
+::: {.notes}
+- Trop de donnees inutiles (12700 $km^2$ au lieu de 1670)
+- Separation en blocks (68)
+
+Mais:
+
+- Besoin de chevauchement entre blocks
+- Mais faible sinon densite trop eleve d'objet genere proceduralement
+- 32 floats sinon pas assez de bits pour coder l'information
+  - landscape pas "smooth"
+
+
+Avantages:
+
+- Usage du World Partition
+  - (rend seulement blocks / building / arbres/... proches de camera)
+
+Pas importer chaque maison: trop grand nombre d'acteurs
+
+=> utiliser texture qui indique l'emplacement de chaque maison
+:::
+
+## Precision required
+
+| Name                               | Area of DTM^[Digital Terrain Model] (km²)            | Pixel Size (m) | LZW Compression Size (GB) | Uncompressed Size (GB) |
+|-----------------------------------|-------------------------------|----------------|----------------------------|--------------------------|
+| Original DTM                       | 12,705                        | 5              | 0.263                      | 1.89                     |
+| Upscaled DTM                       | 12,705                        | 1              | 5.76                       | 47.33                    |
+| Upscaled 68 DTMs together + 5 m overlaps | 1,670                        | 1              | 2.32                       | 6.425                    |
+| Upscaled 68 DTMs individually — Smallest | 5.07                         | 1              | 0.00711                    | 0.0193                   |
+| Upscaled 68 DTMs individually — Largest  | 75.3                         | 1              | 0.103                      | 0.287                    |
+
 
 ## Pretty Code {auto-animate="true"}
 
