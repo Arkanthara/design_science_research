@@ -11,6 +11,7 @@ format:
     logo-size: 20
     theme: theme.scss
     footer: 'Michel Jean Joseph Donnet'
+    scrollable: true
 resources:
   - demo.pdf
 ---
@@ -21,6 +22,8 @@ resources:
   - 1670 $km^2$ and more
 - Example of dataset: [swissBUILDINGS3D 3.0 Beta
 ](https://map.geo.admin.ch/#/map?lang=fr&sr=3857&camera=6.139928,46.175321,441.8,-2,5,&3d&topic=ech&layers=ch.swisstopo.swissimage-product@year=current&bgLayer=ch.swisstopo.pixelkarte-farbe&catalogNodes=ech,532)
+
+# Introduction
 
 ## Motivations {background-video="./img/video.mp4"}
 
@@ -77,6 +80,8 @@ Note: adaptation requise pour avoir informations qui matchent la taille de heigh
 (Si trop grand, erreur dans UE5)
 :::
 
+# Data preprocessing/importing
+
 ## Challenging of importing data inside UE5
 
 - UE5 doesn't support GIS imports
@@ -91,12 +96,12 @@ Note: adaptation requise pour avoir informations qui matchent la taille de heigh
 ::: {.notes}
 Achetables sur marketplace de UE5
 
-#### Landscaping
+Landscaping
 
 - import: quelques heures
 - pas stable sur large datasets
 
-#### TerraForm PRO
+TerraForm PRO
 
 - import: 15 minutes
 - pas limite sur systeme de coordonnees (Coordinate Reference System)
@@ -144,7 +149,7 @@ Pas importer chaque maison: trop grand nombre d'acteurs
 => utiliser texture qui indique l'emplacement de chaque maison
 :::
 
-## Precision required
+## Note about Precision
 
 | Name                               | Area of DTM^[Digital Terrain Model] (km²)            | Pixel Size (m) | LZW Compression Size (GB) | Uncompressed Size (GB) |
 |-----------------------------------|-------------------------------|----------------|----------------------------|--------------------------|
@@ -154,129 +159,131 @@ Pas importer chaque maison: trop grand nombre d'acteurs
 | Upscaled 68 DTMs individually — Smallest | 5.07                         | 1              | 0.00711                    | 0.0193                   |
 | Upscaled 68 DTMs individually — Largest  | 75.3                         | 1              | 0.103                      | 0.287                    |
 
+## Landscape Material
 
-## Pretty Code {auto-animate="true"}
+- Works with raster (images)
+- Only support one material for landscape
+- But multiple layers
 
--   Over 20 syntax highlighting themes available
--   Default theme optimized for accessibility
+. . .
 
+**$\Longrightarrow$ Import textures as raster masks !**
 
+::: {.notes}
 
+Un raster = une image codant une information géographique sous forme de nombres.
 
-## Media Backgrounds {background="#43464B" background-video="./img/video.mp4"}
+- Blueprint utilisé pour découper matériel en couches
 
-You can also use the following as a slide background:
+Note: masques de la dimension exacte du paysage !
 
--   An image: `background-image`
+Perte de données géographiques dans conversion vector data en raster masks !
 
--   A video: `background-video`
-
--   An iframe: `background-iframe`
-
-::: footer
-Learn more: [Media Backgrounds](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/#image-backgrounds)
+Précision supérieur à 1m perdue car trop d'espace requis
 :::
 
+# Unreal Engine
 
-## Jump To Slide
+::: {.notes}
 
-::: {style="margin-bottom: 0.9em;"}
-Quickly jump to other parts of your presentation
+Paramètres UE5 activés
+
+- procedural foliage
+- ...
+
 :::
 
-## Chalkboard {chalkboard-buttons="true"}
+## Landscape Pro 3
 
-::: {style="margin-bottom: 0.9em;"}
-Free form drawing and slide annotations
+![Landscape Pro 3 foliage models](img/landscape_pro_3.jpg)
+
+::: {.notes}
+
+- Besoin d'assets
+- Matériel de base qui contient tous les layers utiles
+
 :::
 
-::: {layout="[1, 20]"}
-![](images/presentation-chalkboard.png){width="41"}
+## Base Landscape Material
 
-Use the chalkboard button at the bottom left of the slide to toggle the chalkboard.
+![Base Landscape Material](img/base_material.jpg)
+
+::: {.notes}
+
+Chaque autre layer doit être créé séparément et importés (raster masks)
+
+LIMITATIONS SUR L'IMPORT DES RASTERS
+
 :::
 
-::: {layout="[1, 20]"}
-![](images/presentation-notes-canvas.png){width="41"}
+## Procedural generation of Foliage
 
-Use the notes canvas button at the bottom left of the slide to toggle drawing on top of the current slide.
+![](img/procedural_generation.jpg)
+
+::: {.notes}
+
+Dépend du layer
+
+Base layer ne requiert pas de locations
+
+Fully annimé
+
+Prend en compte la pente pour ajuster la quantité et le type de végétation...
+
+Procedural Foliage Spawner Actor pour générer arbres/rocks/...
+
+(Pas oublier activer dans editor !!)
+
+Temporal Anti-Aliasing pour éviter flickering et shimmering (lissage du mouvement en prenant en compte précédentes frames)
+
+- (Flickering): feuilles très fines / textures alpha => peut disparaître et réapparaître...
+- (Shimmering): détails fins trop petits pour tenir dans pixel => entre 2 pixels => impression que l'object vibre
+
 :::
 
-You can also press {{< kbd b >}} to toggle the chalkboard or {{< kbd c >}} to toggle the notes canvas.
+## Procedural generation of buildings
 
-::: footer
-Learn more: [Chalkboard](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/presenting.html#chalkboard)
+Vitruvio:
+
+- Free for non-commercial use
+- Based on CityEngine SDK API
+
+. . .
+
+- Cooking process
+
+::: {.notes}
+
+- Besoin de fichiers RPK créés dans CityEngine et requérant une license
+- 21000 building générés
+- stable process
+- convertir vitruvio actors en mesh (éviter les réimportations après fermeture)
+  - format propriétaire
+  - Besoin de beaucoup de ressources
+    - splitter en subset
+    - attribuer plus de RAM ou SWAP (System virtual memory)
+  - 170 GB utilisé
 :::
 
-## Point of View
+## Water bodies
 
-press {{< kbd o >}} to toggle overview mode:
+::: {layout-ncol="2"}
 
-![](images/overview-mode.png){.border}
+![](img/water_1.jpg)
 
-Hold down the {{< kbd Alt linux=Ctrl >}} and click on any element to zoom towards it---try it now on this slide.
+![](img/water_2.jpg)
 
-::: footer
-Learn more: [Overview Mode](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/presenting.html#overview-mode), [Slide Zoom](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/presenting.html#slide-zoom)
 :::
 
-## Speaker View
-
-press {{< kbd s >}} (or use the tools in presentation menu ![](../images/navigation-menu-icon.png){style="padding-bottom: 1px; margin: 0" width="0.5em" height="0.5em"}) to open speaker view
-
-![](images/speaker-view.png){fig-align="center" style="border: 3px solid #dee2e6;" width="780"}
-
-::: footer
-Learn more: [Speaker View](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/presenting.html#speaker-view)
-:::
-
-## Scroll View {#scroll-view}
-
-Press {{< kbd r >}} (or use the tools in presentation menu ![](../images/navigation-menu-icon.png){style="padding-bottom: 1px; margin: 0" width="0.5em" height="0.5em"}) to open scroll view
-
-Try it now on this slide --- You'll see a scroll bar on the right and you can scroll down the presentation using your mouse.
-
-Scroll view behavior can be configured using `scroll-view` configuration. 
-
-::: footer
-Learn more: [Scroll View](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/presenting.html#scroll-view)
-:::
-
-## Authoring Tools {.smaller}
-
-Live side-by-side preview for any notebook or text editor including Jupyter and VS Code
-
-::: columns
-::: {.column width="50%"}
-![](images/jupyter-edit.png){.border .border-thick}
-:::
-
-::: {.column width="50%"}
-![](images/jupyter-preview.png){.border .border-thick}
-:::
-:::
-
-::: footer
-Learn more: [Jupyter](https://{{< meta prerelease-subdomain >}}quarto.org/docs/tools/jupyter-lab.html), [VS Code](https://{{< meta prerelease-subdomain >}}quarto.org/docs/tools/vscode.html), [Text Editors](https://{{< meta prerelease-subdomain >}}quarto.org/docs/tools/text-editors.html)
-:::
-
-## Authoring Tools {.smaller}
-
-RStudio includes an integrated presentation preview pane
-
-![](images/rstudio.png){.border width="900"}
-
-::: footer
-Learn more: [RStudio](https://{{< meta prerelease-subdomain >}}quarto.org/docs/tools/rstudio.html)
-:::
-
-## And More...
-
--   [Touch](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/advanced.html#touch-navigation) optimized (presentations look great on mobile, swipe to navigate slides)
--   [Footer & Logo](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/#footer-logo) (optionally specify custom footer per-slide or hide global footer)
--   [Auto-Slide](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/presenting.html#auto-slide) (step through slides automatically, without any user input)
--   [Multiplex](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/presenting.html#multiplex) (allows your audience to follow the slides of the presentation you are controlling on their own phone, tablet or laptop).
-
-::: footer
-Learn more: [Quarto Presentations](https://{{< meta prerelease-subdomain >}}quarto.org/docs/presentations/revealjs/)
+::: {.notes}
+- Expérimental
+- Besoin d'être activé dans paramètres
+- seulement 2 types utilisés (pas océan...)
+  - pour rivières
+  - pour lacs / gouilles (de ferme)
+  - utilisation option déformer landscape
+- Problème: fond de lacs / rivière pas donné par Digital Terrain Model...
+- Shape 2D lac complexe
+- Tout à recréer à la main...
+- Rivière: spline avec hauteur... => plus complexe !
 :::
