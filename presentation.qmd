@@ -286,8 +286,239 @@ Vitruvio:
 - Shape 2D lac complexe
 - Tout à recréer à la main...
 - Rivière: spline avec hauteur... => plus complexe !
-- Package project
+- Package project (supprime références invalides/cleanup)
 :::
 
 # Results
 
+## Step followed
+
+**Describe the entire approach !**
+
+- data origin
+- data preprocessing
+- softwares / plugins
+- configurations
+
+## Evaluation
+
+- compare to old Vltava project using GIS software
+- performances / optimizations
+- sharing / publishing
+- 3D workflow
+
+::: {.notes}
+
+GIS (Geography Information System)
+
+For this reason, the precision of these rasters had to be increased to
+allow smaller areas and details in the vectorization not to be lost during the conversion
+from vector polygons to raster pixels.
+
+:::
+
+## GIS vs Unreal Engine: distant view
+
+::: {layout-ncol="2"}
+
+![GIS](img/gis.jpg)
+
+![Unreal Engine](img/ue5.jpg)
+
+:::
+
+::: {.notes}
+
+- Textures plus realistes (plus sombres)
+- Dynamic light
+  - relief mieux défini
+
+:::
+
+## GIS vs Unreal Engine: Trees Level Of Details
+
+::: {layout-ncol="2"}
+
+![GIS](img/gis_2.jpg)
+
+![Unreal Engine](img/ue5_2.jpg)
+
+:::
+
+::: {.notes}
+
+- GIS: arbres très simples... Densité varie avec distance
+- UE5: arbres complexes...
+  - Densité constante
+  - Modèle change avec distance
+
+:::
+
+## GIS vs Unreal Engine: vegetation
+
+::: {layout-ncol="2"}
+
+![GIS](img/gis_3.jpg)
+
+![Unreal Engine](img/ue5_3.jpg)
+
+:::
+
+::: {.notes}
+
+- GIS: pas de végétation autres que arbres
+- UE5: végétation et détails du sol
+
+Problème sur les bords
+
+- bords nettes
+- bords pixelisés
+- artifacts 
+- pas transition progressive
+- blending
+
+:::
+
+## GIS vs Unreal Engine: buildings
+
+::: {layout-ncol="2"}
+
+![GIS](img/gis_4.jpg)
+
+![Unreal Engine](img/ue5_4.jpg)
+
+:::
+
+::: {.notes}
+
+Pas grande différence
+
+Mais UE5 meilleur rendu
+
+- ombres
+- moteur de rendu
+
+Mais moins bonnes couleurs
+
+- light settings
+- exposition
+- attributs de textures
+
+:::
+
+# Discussion
+
+## Vltava Project vs Rome Reborn
+
+Rome Reborn
+
+- **PAID** project since **2019** (no documentation anymore, ...)
+- building visualization
+- smaller area
+
+Virtual Angkor
+
+- ancient city of Angkor in Cambodia
+
+Poyang Lake
+
+- Vizualization of Poyang Lake accross seasons
+
+
+::: {.notes}
+En général, workflow pas décrit...
+
+Rome reborn
+
+- depuis version 3.0 plus d'informations et switch sur Unity
+- deviennent inutiles et uniquement pour VR tours...
+- building créés en partie à la main (C4D, 3DSMax, time consumming...)
+- 7000 buildings et 250 buildings créés à la main (autres générés avec CityEngine...)
+- vs: 21000 buildings
+
+Angkor
+
+- pas publique, mais plus d'informations
+- 3500 km^2 GIS avec LiDAR data (drones scans)
+- 2km^2 Unity
+- VR exploration
+- utilise game engine pour montrer routine des personnages d'époque
+- mais pas beaucoup d'informations
+- montre ce qui est possible, mais pas comment
+- vs: but est montrer l'utilité et scalabilité d'UE5, pas d'exploiter le full potentiel du Game Engine...
+
+Poyang Lake
+
+- surtout végétations et différents types de plantes dépendant de saison
+- informations sur les types de sols
+- vs: informations sur les types de matériel (forêt / champs) et sur l'emplacement des maisons (procedural building)
+- uses WebVR et html display (plus possible depuis 2019 dans UE5...) ou VR
+- très similaire à Vltava (données réelles / textures et types de sol...)
+- Mais Lake est essentiellement VR alors que Vltava est essentiellement PC application
+
+:::
+
+## Improvments
+
+- Better visualization
+- Problem in data coverage (terrain smaller than land use data)
+- No way to get underwater parts caused by dams
+- Simulation of broken dams in further works ?
+- No road/alleys/barriers/... visualized
+- Animals AI driven ?
+- Real-time Ray Tracing
+
+::: {.notes}
+
+- Visualisation faite en même temps que l'écriture de l'article... Premier jet, mais peut passer plus de temps pour améliorer visualisation
+- barrage: montrer quelles zones de la vallée de la Vltava sont sous l'eau en jouant avec niveau de l'eau (pas possible car eau à la main...)
+- utiliser Landscapes Spline pour créer routes/barrières/...
+- mais besoin définir taille de route... et extraction des datas dans GIS software...
+- plus réaliste, mais plus de mémoire, besoin d'assets et tout à implémenter...
+- raytracing: lumière/réflections/ombres améliorées mais coût en performances Mais rtx ont des cores dédiés pour ça...
+
+:::
+
+## Performance optimization
+
+- Maximise FPS
+  - RTX 4090: 80-120 FPS
+  - RTX 4080: 60 FPS and more
+  - RTX 4070: ~60 FPS
+
+. . .
+
+**Require good GPUs !**
+
+*$\Longrightarrow$ Usage of Nanite to improve FPS performances !*
+
+::: {.notes}
+
+Nanite:
+
+- très complexe
+- s'occupe tout seul des niveaux de détails des objecs en fonction de leur distance
+- travaille avec lumen
+- mais problèmes avec foliage
+  - utilisation de Shadow imposters (rendre les ombres des objets lointains sans forcément rendre les objects eux-mêmes) à la place, ce qui est en cours de test
+
+:::
+
+## Unreal Engine for Visualization ?
+
+- Data not prepaired for Game Engines
+- Need powerfull computer instead of online visualization on GIS
+- Need to be downloaded
+
+**$\Longrightarrow$ educational games !**
+
+::: {.notes}
+
+Approche plus active et moins réaliste est préférée pour les educational games...
+
+- tourner sur mobile
+- permet à plus d'users d'utiliser cela
+
+:::
+
+# Conclusion
