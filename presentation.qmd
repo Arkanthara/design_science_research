@@ -522,3 +522,105 @@ Approche plus active et moins réaliste est préférée pour les educational gam
 :::
 
 # Conclusion
+
+# General analysis of paper
+
+## About author and quality of journal/paper
+
+- From student
+- No h-index
+- Paper only cited 5 times with only 4000 views
+- But good journal: [International Journal of Geo-Information](https://www.mdpi.com/journal/ijgi)
+
+::: {.notes}
+
+- Peer review ont une réduction sur la publication -> incite à faire bon travail
+- Légitime et reconnu (WoS, Scopus),
+- Bonne visibilité internationale,
+- Impact scientifique correct à bon,
+- Sélectif, mais pas élitiste,
+- Rapide, ce qui peut être stratégique.
+- domaine géographie/planète
+
+:::
+
+## Abstract
+
+![](img/abstract.png)
+
+::: {.notes}
+
+- Informative (200 words)
+- Reason of writing clearly explained
+- Problem to solve is not very clear (Why using game engines ? What are challenges ?)
+- Methodology is right explained
+- Results are only mentionned (But how to represent them ?)
+- Implications not rightly created
+
+:::
+
+# Analysis of content
+
+## Quality of content
+
+- Good explanations
+- But not enough technical
+- Why analysis of other projects after the description of complete workflow ?
+
+::: {.notes}
+
+- Pas assez de détails techniques... J'ai appris des choses, mais pas tant que ça...
+- Explications bonnes pour public moins techniques et n'ayant pas de connaissances au préalable dans le domaine
+- Pourquoi pas expliquer avant les autres projets ???
+  - Sinon, pas compréhension de pourquoi tout le workflow est autant détaillé
+  - Workflow pas présenté dans autres projects (c'est une des motivations principales de cet article qui est mentionné que tardivement)
+    - C'est le point qui fait la différence avec les autres projects !!
+
+:::
+
+## Remarks about paper
+
+- Why using Game Engines ?
+- Why not using advantages of Game Engines ? (Time reason)
+
+::: {.notes}
+
+- pas compris pourquoi pas utiliser Nanite (une des plus grandes forces de UE5) alors que c'était un peu l'objectif ??
+- effectivement, mentionné est limite de temps ne permettant pas une exploration complète des possibilités... Seulement premier jet...
+
+:::
+
+## Remarks about results
+
+- Looks not so realistic as expected (buildings, strange forest, hand-managed water...)
+- But all workflow is here !
+
+::: {layout-ncol="3"}
+
+![](img/ue5_3.jpg)
+
+![](img/base_material.jpg)
+
+![](img/ue5_4.jpg)
+
+:::
+
+::: {.notes}
+
+- Material texture pas bien appliqué (quadrillage)
+- Rugosité à mieux paramétrer (rochers avec plus de relief)
+- Maisons pas réaliste
+- Prochaine étape: ajout des routes !
+
+
+:::
+
+## What's about precision ?
+
+![](img/resolution.png)
+
+## What's about landscape realism ?
+
+
+
+
