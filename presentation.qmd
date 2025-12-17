@@ -471,7 +471,7 @@ Poyang Lake
 
 :::
 
-## Improvments
+## Improvements
 
 - Better visualization
 - Problem in data coverage (terrain smaller than land use data)
