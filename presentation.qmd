@@ -4,14 +4,13 @@ subtitle: "A Case Study of 3D Visualization of Large-Scale GIS Datasets in Unrea
 format:
   revealjs: 
     slide-number: true
-    chalkboard: 
-      buttons: false
     preview-links: auto
     logo: img/unige.svg
     logo-size: 20
     theme: theme.scss
     footer: 'Michel Jean Joseph Donnet'
     scrollable: true
+    embed-resources: true
 resources:
   - demo.pdf
 ---
@@ -25,6 +24,18 @@ resources:
 
 # Introduction
 
+## Quiz
+
+Which one is real ?
+
+::: {layout-ncol="2"}
+
+![1](img/forest_1.png)
+
+![2](img/forest_2.png)
+
+:::
+
 ## Motivations {background-video="./img/video.mp4"}
 
 - Improvements in computational performance since the 1970s
@@ -35,9 +46,7 @@ resources:
 
 **$\Longrightarrow$ Massive open word creation !**
 
-## Used hardware
-
-Table: Used hardware.
+## Used hardware {.r-fit-text}
 
 | Computer / Parameters | PC1                 | PC2                 |
 |-----------------------|--------------------------------|----------------------------------|
@@ -151,6 +160,8 @@ Pas importer chaque maison: trop grand nombre d'acteurs
 
 ## Note about Precision
 
+::: {.shrink}
+
 | Name                               | Area of DTM^[Digital Terrain Model] (km²)            | Pixel Size (m) | LZW Compression Size (GB) | Uncompressed Size (GB) |
 |-----------------------------------|-------------------------------|----------------|----------------------------|--------------------------|
 | Original DTM                       | 12,705                        | 5              | 0.263                      | 1.89                     |
@@ -158,6 +169,8 @@ Pas importer chaque maison: trop grand nombre d'acteurs
 | Upscaled 68 DTMs together + 5 m overlaps | 1,670                        | 1              | 2.32                       | 6.425                    |
 | Upscaled 68 DTMs individually — Smallest | 5.07                         | 1              | 0.00711                    | 0.0193                   |
 | Upscaled 68 DTMs individually — Largest  | 75.3                         | 1              | 0.103                      | 0.287                    |
+
+:::
 
 ## Landscape Material
 
@@ -620,6 +633,14 @@ Approche plus active et moins réaliste est préférée pour les educational gam
 ![](img/resolution.png)
 
 ## What's about landscape realism ?
+
+::: {layout-ncol="2"}
+
+![Vltava project](img/15.jpg)
+
+![UE5](img/forest_1.png)
+
+:::
 
 
 
