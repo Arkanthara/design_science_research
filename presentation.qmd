@@ -421,7 +421,7 @@ Mais moins bonnes couleurs
 
 # Discussion
 
-## Vltava Project vs Rome Reborn
+## Vltava Project vs Rome Reborn {background-image="./img/rome.webp" .color-slide}
 
 Rome Reborn
 
@@ -429,18 +429,7 @@ Rome Reborn
 - building visualization
 - smaller area
 
-Virtual Angkor
-
-- ancient city of Angkor in Cambodia
-
-Poyang Lake
-
-- Vizualization of Poyang Lake accross seasons
-
-
 ::: {.notes}
-En général, workflow pas décrit...
-
 Rome reborn
 
 - depuis version 3.0 plus d'informations et switch sur Unity
@@ -449,6 +438,13 @@ Rome reborn
 - 7000 buildings et 250 buildings créés à la main (autres générés avec CityEngine...)
 - vs: 21000 buildings
 
+:::
+
+## Vltava Project vs Angkor {background-image="./img/angkor.webp" .color-slide}
+
+Ancient city of Angkor in Cambodia
+
+::: {.notes}
 Angkor
 
 - pas publique, mais plus d'informations
@@ -459,6 +455,14 @@ Angkor
 - mais pas beaucoup d'informations
 - montre ce qui est possible, mais pas comment
 - vs: but est montrer l'utilité et scalabilité d'UE5, pas d'exploiter le full potentiel du Game Engine...
+:::
+
+## Vltava Project vs Poyang Lake
+
+- Vizualization of Poyang Lake accross seasons
+
+
+::: {.notes}
 
 Poyang Lake
 

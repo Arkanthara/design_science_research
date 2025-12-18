@@ -144,6 +144,15 @@ $light-bg-text-color: $base !default;
   max-height: unset !important;
 }
 
+.color-slide {
+  color: #{$base};
+  font-weight: bold !important;
+}
+
+.color-slide h2 {
+ color: #{$red};
+}
+
 /**
  * Catppuccin Macchiato colors by Catppuccin Org
  * https://github.com/catppuccin/catppuccin
