@@ -1,0 +1,72 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{Real-Time Visualization of Fluid Simulation \footnote{Inspired by Michel Jean Joseph Donnet's bachelor's degree project \cite{donnetComparaisonEntreMethodes}}}
+
+\author{Michel Jean Joseph Donnet}
+\date{December 2025}
+
+\begin{document}
+
+\maketitle
+
+%Headline (General audience)
+%Keep it short (ten words or fewer), straightforward, and as free from jargon as you can. For non-specialists, you want to make clear the application/importance of your work, not the specifics (yet!)
+
+\begin{center}
+    \textbf{How real-time visualization is a game changer !}
+\end{center}
+
+%Summary (General audience)
+%This is not an abstract, just a single sentence summing up what you will cover in the article and giving the audience a reason to read on: it should be no longer than 35 words. Try not to repeat the headline in the summary. Please write this section in the third person
+
+\begin{center}
+    \textit{My summary goes here ...}
+\end{center}
+
+%Paragraph 1: The purpose (General audience)
+%Give the motivation of your work and its potential applications in a way that the public will be able to understand. 
+\paragraph{}{
+Water is something that fascinate humans for a long time.
+Indeed, Archimedes was already using the properties of fluids for calculations such as the famous legend in which he determined the purity of gold in a crown using the properties of a fluid.
+Nowadays, technology has made huge advances, allowing to better understand behavior of fluids thanks to complex simulations.
+These simulations are very computationally intensive and require high-end hardware.
+However, the development of GPUs (Graphics Processing Unit) and parallel computing on GPUs is making this type of simulation more accessible to a wider audience, particularly in the fields of visual effects, video games, etc.
+}
+
+%Paragraph 2: The problem (General technical audience)
+%Now give the context of your work for a non-specialist. To what general field or fields (like artificial intelligence or data security) does your work apply, and why is this field important? Describe a goal that researchers in the field have been working towards and problems in achieving this goal (some of which you have solved, or are trying to solve, which you will explain in the rest of the article). Remember to spell out all acronyms the first time you use them, and to explain all jargon terms that aren’t well understood outside your field. 
+
+\paragraph{}{
+In general, simulations take place in two stages: computation, then visualization.
+Due to the complexity of the calculations, parallelizing fluid simulation is very difficult to achieve, especially on GPUs, which are highly specialized components designed to process large amounts of data in parallel by applying the same calculations to different parts of the data, as is the case in image and video processing, for example. %which have a specific structure that only accepts certain types of tasks but offer high computing power. %which are highly specialized components designed to process large amounts of data in parallel by applying the same calculations to different parts of the data, as is the case in image and video processing, for example.
+That's why most methods perform parallelization on CPUs (central processing units) rather than GPUs due to the complexity of exploiting parallelization on GPUs.
+}
+
+%Paragraph 3: The set up (General technical audience)
+%From the issues you described in the first paragraph, now pick out the ones that concern your work. How have people tried to solve this/these in the past? Why have these solutions fallen short? What is (briefly) your new solution?
+
+\paragraph{}{
+However, some existing methods perform both visualization and computation by exploiting parallelization on GPUs to save computation time, such as the method based on NVIDIA's GVDB Voxel technology \cite{Wu:2018:gvdb_flip}, which uses the specific architecture of NVIDIA GPUs to perform computation and visualization in parallel.
+The proposed method will attempt to address the challenges posed by GPU parallelization and fluid simulation in a novel way, using fluid modeling that facilitates GPU usage.
+} 
+
+%Paragraph 4: Your approach (Audience in your discipline)
+%Having mentioned your approach in the last paragraph, you should now explain the basic concepts behind it and how it works. Here you can be a little more technical, but if you use words that can’t be looked up in a basic scientific dictionary, add some explanation. 
+
+\paragraph{}{My approach / method / artefact ... }
+
+%Paragraphs 5-7: What you’ve done (Audience in your discipline for paragraph 5, moving to a specialist audience for 6 and 7)
+%This is the most straightforward section of the article, and the one that is least likely to be a problem. Go through what you’ve done, what your results were, and what your results mean. Just start off on the less technical side so that those that aren’t right in your field can grasp the basics what you’re trying to do: even if they don’t understand the full details as you progress
+
+\paragraph{}{Description of artefact, implementation, results ...}
+
+%Paragraph 8: Conclusion/further work (General technical audience)
+%Go back and remind us of the application, the problem with it (without restating from scratch), and explain how the work you’ve just described has moved things on. Then tell us how you think you can make even further progress.
+
+\paragraph{}{My conclusion and impact on other domains (open up)}
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}
