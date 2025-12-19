@@ -11,6 +11,8 @@ format:
     footer: 'Michel Jean Joseph Donnet'
     scrollable: true
     embed-resources: true
+    toc: true
+    toc-depth: 1
 resources:
   - demo.pdf
 ---
@@ -30,9 +32,9 @@ Which one is real ?
 
 ::: {layout-ncol="2"}
 
-![1](img/forest_1.png)
+![1](img/forest_1.webp)
 
-![2](img/forest_2.png)
+![2](img/forest_2.webp)
 
 :::
 
@@ -538,8 +540,6 @@ Approche plus active et moins réaliste est préférée pour les educational gam
 
 :::
 
-# Conclusion
-
 # General analysis of paper
 
 ## About author and quality of journal/paper
@@ -642,10 +642,10 @@ Approche plus active et moins réaliste est préférée pour les educational gam
 
 ![Vltava project](img/15.jpg)
 
-![UE5](img/forest_1.png)
+![UE5](img/forest_1.webp)
 
 :::
 
 
 
-
+# Thanks
