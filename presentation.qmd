@@ -540,6 +540,18 @@ Approche plus active et moins réaliste est préférée pour les educational gam
 
 # Conclusion
 
+## Conclusion
+
+The use of a **game engine** for GIS visualization can have **many repercussions** in **different areas** of society.
+
+. . .
+
+For instance, it can enable the creation of more accurate **simulations** or the visualization of the **impact** of a **new** building.
+
+. . .
+
+One might wonder how the proposed workflow could be **improved** to achieve better results and how these results could be **evaluated** using created and fixed **metrics**.
+
 # General analysis of paper
 
 ## About author and quality of journal/paper
