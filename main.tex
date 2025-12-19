@@ -47,7 +47,9 @@ That's why most methods perform parallelization on CPUs (central processing unit
 %From the issues you described in the first paragraph, now pick out the ones that concern your work. How have people tried to solve this/these in the past? Why have these solutions fallen short? What is (briefly) your new solution?
 
 \paragraph{}{
-However, some existing methods perform both visualization and computation by exploiting parallelization on GPUs to save computation time, such as the method based on NVIDIA's GVDB Voxel technology \cite{Wu:2018:gvdb_flip}, which uses the specific architecture of NVIDIA GPUs to perform computation and visualization in parallel.
+%Some approaches to perform both visualization and computation by exploiting parallelization on GPUs to save computation time, such as the method based on NVIDIA's GVDB Voxel technology \cite{Wu:2018:gvdb_flip}, which uses the specific architecture of NVIDIA GPUs to perform computation and visualization in parallel.
+Some approaches that enable both visualization and computation by exploiting parallelization on GPUs have already been implemented, such as the method based on NVIDIA's GVDB Voxel technology \cite{wuFastFluidSimulations2018}, which uses the specific architecture of NVIDIA GPUs to perform computation and visualization in parallel.
+Other methods, designed more for visual results than for simulation realism, have been developed, particularly in game engines such as Fluid Flux for Unreal Engine \cite{FluidFluxDocumentation}.
 The proposed method will attempt to address the challenges posed by GPU parallelization and fluid simulation in a novel way, using fluid modeling that facilitates GPU usage.
 } 
 
