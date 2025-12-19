@@ -11,6 +11,8 @@ format:
     footer: 'Michel Jean Joseph Donnet'
     scrollable: true
     embed-resources: true
+    toc: true
+    toc-depth: 1
 resources:
   - demo.pdf
 ---
@@ -30,9 +32,9 @@ Which one is real ?
 
 ::: {layout-ncol="2"}
 
-![1](img/forest_1.png)
+![1](img/forest_1.webp)
 
-![2](img/forest_2.png)
+![2](img/forest_2.webp)
 
 :::
 
@@ -654,10 +656,10 @@ One might wonder how the proposed workflow could be **improved** to achieve bett
 
 ![Vltava project](img/15.jpg)
 
-![UE5](img/forest_1.png)
+![UE5](img/forest_1.webp)
 
 :::
 
 
 
-
+# Thanks
