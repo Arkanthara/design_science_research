@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{longtable}
+\usepackage{amsmath}
 
 \title{Real-Time Visualization of Fluid Simulation \footnote{Inspired by Michel Jean Joseph Donnet's bachelor's degree project \cite{donnetComparaisonEntreMethodes}}}
 
@@ -59,24 +60,72 @@ The proposed method will attempt to address the challenges posed by GPU parallel
 %Having mentioned your approach in the last paragraph, you should now explain the basic concepts behind it and how it works. Here you can be a little more technical, but if you use words that can’t be looked up in a basic scientific dictionary, add some explanation. 
 
 \paragraph{}{
-The new method developed is not based on the famous Navier-Stokes equations, which represent the flow of a viscous fluid.
+The new method developed, called the Lattice Boltzmann Method (LBM), is not based on the famous Navier-Stokes equations, which represent the flow of a viscous fluid.
 Indeed, these equations are very complex and have no known mathematical solution to date: the Navier-Stokes equations are among the \textit{Millennium Prize Problems} for which a reward of one million dollars is offered to anyone who can solve them.
 The approach used is derived from the \textit{Lattice Gaz Automata} method developed in 1973 by J. Hardy, Y. Pomeau, and O. Pazzis \cite{Hardy1973TimeEO}, which uses Boltzmann equations instead of Navier-Stokes equations.
-In contrast to the Navier-Stokes equations, which describe the behavior of fluids at a macroscopic level, Boltzmann's equations use a microscopic representation of the fluid in the form of a set of populations of particles that interact with each other.
-Interactions are local in this representation of the fluid, which is exploited to perform GPU parallelization.
+In contrast to the Navier-Stokes equations, which describe the behavior of fluids at a macroscopic level, Boltzmann's equations use a microscopic representation of the fluid in the form of a set of populations of particles that interact with each other as shown on figure \ref{fig:lattice}.
 }
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/graph.png}
+    \caption{Lattice vectors used in the simulation}
+    \label{fig:lattice}
+\end{figure}
+
 
 %Paragraphs 5-7: What you’ve done (Audience in your discipline for paragraph 5, moving to a specialist audience for 6 and 7)
 %This is the most straightforward section of the article, and the one that is least likely to be a problem. Go through what you’ve done, what your results were, and what your results mean. Just start off on the less technical side so that those that aren’t right in your field can grasp the basics what you’re trying to do: even if they don’t understand the full details as you progress
 
-\paragraph{}{Description of artefact, implementation, results ...}
+\paragraph{}{
+As in Boltzmann's equations, the LBM method defines a distribution function $f(\xi, \mathbf{x}, t)$ that describes the number of particles at position $\mathbf{x}$ at time $t$ moving in direction $\xi$ at velocity $\lVert \xi \rVert_{2}$.
+The parameter $\xi$ can be defined as $\xi = \frac{d\mathbf{x}}{dt}$.
+The main difference here is that the LBM method works with particle populations instead of considering each particle separately, which is computationally intensive.
+The distribution function $f$ is normalized such that integration over velocity and position gives the mass of the population, as shown in equation (\ref{eq:mass}), to ensure that the Euler's principle of conservation of mass is respected.
+Indeed, when the velocity and position of each particle are neglected, only the mass of the population remains.
+\begin{equation}
+    \label{eq:mass}
+    \int d^3 \xi \int d^3 \mathbf{x} f(\xi, \mathbf{x}, t) = M(t)
+\end{equation}
+
+Calculating the moments of the distribution function $f$ enables the characteristics of the fluid to be extracted, such as the particle density $\rho$ for moment 0 or the momentum $\rho u$ for moment 1.
+The function $f$ evolves over time as described in equation (\ref{eq:evolution}), in accordance with Newton's second law.
+\begin{equation}
+\label{eq:evolution}
+\begin{aligned}
+\frac{df(\xi, \mathbf{x}, t)}{dt}
+&= \left(\frac{dt}{dt} \cdot \frac{\partial}{\partial t} + \frac{d\mathbf{x}}{dt}\cdot \frac{\partial}{\partial \mathbf{x}} + \frac{d\xi}{dt} \cdot \frac{\partial}{\partial \xi}\right) f(\xi, \mathbf{x}, t) \\
+&= \left(\frac{\partial}{\partial t} + \xi \cdot \frac{\partial}{\partial \mathbf{x}} + \frac{F}{\rho} \cdot \frac{\partial}{\partial \xi}\right) f(\xi, \mathbf{x}, t) \\
+&= \frac{\partial}{\partial t}f + \xi \cdot \nabla_{\mathbf{x}} f + \frac{F}{\rho} \cdot \nabla_{\xi}f \\
+\end{aligned}
+\end{equation}
+The collision operator $\Omega$ can then be defined as the relaxation of the function $f$ towards the equilibrium function $f^{eq}$ (defined in equation \ref{eq:equilibrum}) thanks to the work of Bhatnagar, Gross, and Krook\cite{Bhatnagar}, with $\tau$ being the relaxation time as indicated in equation (\ref{eq:relaxation}).
+\begin{equation}
+\label{eq:relaxation}
+\Omega (f) =- \frac{1}{\tau} (f - f^{eq})
+\end{equation}
+\begin{equation}
+\label{eq:equilibrum}
+f^{eq} (\mathbf{v}, \mathbf{x}, t) = \rho \left(\frac{1}{2\pi RT}\right)^{3/2} e^{-\frac{|\mathbf{v}|^2}{2RT}}
+\end{equation}
+
+As shown in Figure \ref{fig:propagation}, the algorithm operates in two main steps: collision calculation, followed by propagation of the result to neighboring particle populations.
+In this way, interactions are local and can be exploited for GPU parallelization.
+Result of implementation can be found on ProjectPhysX/FluidX3D on github \cite{FluidX3D}
+}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/algo.png}
+    \caption{Taken from work of Schiller, Ulf and Krüger, Timm and Henrich, and Oliver \cite{algo}}
+    \label{fig:propagation}
+\end{figure}
 
 %Paragraph 8: Conclusion/further work (General technical audience)
 %Go back and remind us of the application, the problem with it (without restating from scratch), and explain how the work you’ve just described has moved things on. Then tell us how you think you can make even further progress.
 
 \paragraph{}{My conclusion and impact on other domains (open up)}
 
-\section{Appendix}
 
 \begin{table}[h]
 \centering
@@ -87,34 +136,29 @@ Interactions are local in this representation of the fluid, which is exploited t
 \textbf{Variable} & \textbf{Description} & \textbf{Unit} \\
 \hline
 \hline
-$t$ & time & $s$ \\
-
+$t$ & Time & $s$ \\
 $\rho$ & Fluid density & $kg \cdot m^{-3}$ \\
-
 $\mathbf{v}$ & Fluid velocity vector & $m \cdot s^{-1}$ \\
-
 $p$ & Fluid pressure & $N \cdot m^{-2}$ \\
-
 $F$ & External forces acting on the fluid & $N$ \\
-
 $E$ & Total energy per unit mass & $J \cdot kg^{-1}$ \\
-
 $e$ & Internal energy per unit mass & $J \cdot kg^{-1}$ \\
-
 $\Sigma$ & Fluid viscous stress tensor & $N \cdot m^{-2}$ \\
-
 $q$ & Heat flux due to thermal conduction & $J \cdot s^{-1} \cdot m^{-2}$ \\
-
 $q_{R}$ & Heat flux due to radiation & $J \cdot s^{-1} \cdot m^{-2}$ \\
-
 $m$ & Particle mass & $kg$ \\
-
-$f$ & Probability density function & $m^{-3} \cdot s^{-1}$ \\
-
+$f$ & Particle distribution function (PDF) & $m^{-3} \cdot s^{-1}$ \\
+$f^{eq}$ & Equilibrium distribution function & $m^{-3} \cdot s^{-1}$ \\
+$\tau$ & Relaxation time & $s$ \\
+$\Omega$ & Collision operator in LBM & $m^{-3} \cdot s^{-1}$ \\
 $\mathbf{x}$ & Particle position & $m$ \\
+$T$ & Temperature (measure of particle agitation) & $K$ \\
+$R$ & Specific gas constant & $J \cdot kg^{-1} \cdot K^{-1}$ \\
+$\boldsymbol{\xi}$ & Particle microscopic velocity & $m \cdot s^{-1}$ \\
 \hline
 \end{longtable}
 \end{table}
+
 
 
 
