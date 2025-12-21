@@ -114,12 +114,12 @@ f^{eq} (\xi, \mathbf{x}, t) = \rho \left(\frac{1}{2\pi RT}\right)^{3/2} e^{-\fra
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.7\textwidth]{img/algo.png}
-    \caption{Taken from work of Schiller, Ulf and Krüger, Timm and Henrich, and Oliver \cite{algo}}
+    \caption{Basic calculation steps of the algorithm, based on the work of Schiller, Ulf and Krüger, Timm and Henrich, and Oliver \cite{algo}}
     \label{fig:propagation}
 \end{figure}
 
 As shown in Figure \ref{fig:propagation}, the algorithm operates in two main steps: collision calculation, followed by propagation of the result to neighboring particle populations.
-In this way, interactions are local and can be exploited for GPU parallelization.
+In this way, interactions are local and can be exploited for GPU parallelization: the computation can be divided and distributed to each processing unit of the GPU.
 The implementation, benchmarks, documentation, and examples are available on ProjectPhysX/FluidX3D on GitHub \cite{Lehmann_FluidX3D_2022}.
 GPU parallelization is effective and enables realistic real-time rendering of fluid simulations, as shown in Figure \ref{fig:ex1}.
 For more complex cases, the simulation can be run on multiple GPUs from different manufacturers, as shown in Figure \ref{fig:ex2}.
@@ -131,14 +131,14 @@ However, real-time visualization is not possible and the simulation must be save
     \begin{subfigure}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{img/example.png}
-        \caption{Real-time visualization with a resolution grid of 3 million cells}
+        \caption{Real-time visualization of a raindrop with a resolution grid of 3 million cells}
         \label{fig:ex1}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{img/backing_example_2.jpg}
-        \caption{Fluid simulation with a resolution of 1 billion cells}
+        \caption{Aerodynamic fluid simulation of an F1 car with a resolution of one billion cells}
         \label{fig:ex2}
     \end{subfigure}
     \caption{Results of Lattice Boltzmann Method}
